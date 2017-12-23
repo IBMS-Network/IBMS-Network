@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="julya" basedir="." default="build">
+    <property name="project.dir" value="${project.basedir}"/>
+    <property name="project.build.dir" value="${project.dir}/build"/>
+    <property name="project.logs.dir" value="${project.build.dir}/logs"/>
+
+    <target name="clean">
+        <delete dir="${project.build.dir}" />
+    </target>
+
+    <target name="init">
+        <mkdir dir="${project.build.dir}" />
+        <mkdir dir="${project.logs.dir}" />
+    </target>
+
+    <target name="build-dev" depends="clean,init,lint,phpcpd,unit,deploy-clean,deploy-archive" />
+    <target name="build-qa" depends="clean,init,lint,phpcpd,unit,deploy-clean,deploy-archive" />
+    <!-- PHP copy/paste analysis -->
+    <target name="phpcpd">
+<!--         <phpcpd minLines="5" minTokens="40">
+            <fileset dir="${project.dir}">
+                <include name="**/*.php"/>
+            </fileset>
+            <formatter type="pmd" outfile="${project.logs.dir}/pmd-cpd.xml"/>
+        </phpcpd> -->
+        <echo msg="DUMMY: PHP copy/paste analysis OK!" />
+    </target>
+
+    <!-- PHP checks syntax (lint) -->
+    <target name="lint">
+<!--         <phplint haltonfailure="true">
+            <fileset dir="${project.dir}">
+                <include name="**/*.php"/>
+                <include name="**/*.phtml"/>
+            </fileset>
+        </phplint> -->
+        <echo msg="DUMMY: checks PHP syntax OK!" />
+    </target>
+ 	<target name="unit">
+ 		 <echo msg="DUMMY: Unit Tests OK!" />
+ 	</target>
+
+    <target name="deploy-clean">
+        <delete file="./build.tar.gz" />
+        <delete file="./build.tar.gz.tmp" />
+    </target>
+
+    <target name="deploy-archive">
+        <echo msg="Creating archive..." />
+
+        <tar destfile="./build.tar.gz" compression="gzip">
+            <fileset dir="./">
+                <include name="*" />
+                <exclude name="**/.svn/**"/>
+                <exclude name="domains/ip.loc/confsystem/config.ini"/>
+            </fileset>
+        </tar>
+
+        <echo msg="Files copied and compressed in build directory OK!" />
+    </target>
+
+</project>
