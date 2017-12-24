@@ -1,0 +1,1 @@
+ALTER TABLE admins ADD COLUMN role_id INT NOT NULL AFTER id, ADD KEY role_index_id(role_id);

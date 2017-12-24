@@ -1,0 +1,67 @@
+<?php
+
+class clsSysEmail {
+
+    static private $instance = NULL;
+    private $session = "";
+
+    public static function getInstance() {
+        if (self::$instance == NULL) {
+            self::$instance = new clsEmail();
+        }
+        return self::$instance;
+    }
+
+    public function clsEmail() {
+        $this->session = clsSession::getInstance();
+    }
+
+    public function sendEmail($subj, $to, $type, $params = array()) {
+
+        $i = 0;
+
+        $headers = "From:" . ucfirst(SERVER_NAME) . "  <support@" . SERVER_NAME . ">\r\n";
+        $headers .= "Content-Type: text/html; charset=utf-8\n";
+        $headers .= "Content-Transfer-Encoding: Quot-Printed\n\n";
+
+        $parser = new clsParser();
+        $parser->clear();
+        $tpl = array(1 => 'client_to_manager.html', 2 => 'client_to_manager_unregistered.html',
+            3 => 'recovery_password.html');
+        foreach ($params as $k => $v) {
+            $parser->setVar($k, $v);
+            $i++;
+        }
+        $parser->setEmailTemplate($tpl[$type]);
+        $body = $parser->getResult();
+        $res = clsCommon::SendEmail($to, $subj, $body, $headers);
+        if (!$res) {
+            if (USE_DEBUG) {
+                echo "Cannot send email";
+            } else {
+                // +++++ USE DEBUG +++++
+                //clsCommon::Log();
+            }
+        }
+        return true;
+    }
+
+    public function sendFeedback($to, $subj, $message, $name, $from) {
+
+        $headers = "From:" . $name . "  <" . $from . ">\r\n";
+        $headers .= "Content-Type: text/html; charset=utf-8\n";
+        $headers .= "Content-Transfer-Encoding: Quot-Printed\n\n";
+
+        $res = clsCommon::SendEmail($to, $subj, $message, $headers);
+        if (!$res) {
+            if (USE_DEBUG) {
+                echo "Cannot send email";
+            } else {
+                // +++++ USE DEBUG +++++
+                //clsCommon::Log();
+            }
+        }
+        return true;
+    }
+
+}
