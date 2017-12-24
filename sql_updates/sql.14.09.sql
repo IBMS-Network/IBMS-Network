@@ -1,0 +1,1 @@
+ALTER TABLE brands ADD country_id INTEGER NOT NULL DEFAULT 0;

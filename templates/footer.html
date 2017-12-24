@@ -1,0 +1,117 @@
+<div style="padding-bottom: 400px;; height: 60px; background-color: #E5E5E5; text-align: right;">
+    <span style="background-color: black; color: white; padding-left: 10px;">Подвал сайта</span>
+</div>
+
+<script>
+$(function() {
+    var email = $( "#email" ),
+        password = $( "#password" );
+
+    $( "#login-form" ).dialog({
+        autoOpen: false,
+        height: 300,
+        width: 350,
+        modal: true,
+        buttons: {
+            "Войти": function() {
+                $.ajax({
+                    type: "POST",
+                    url: "/ajax/login.php",
+                    data: { email: email.val(), password: password.val() }
+                }).done(function( msg ) {
+                    if(msg == true) {
+                        alert('Вы удачно вошли в систему!');
+                        $( "#dialog-form" ).dialog( "close" );
+                        window.location.replace("/");
+                    } else {
+                        alert( "Неверно введены данные");
+                    }
+                });
+            },
+            "Отмена": function() {
+                $( this ).dialog( "close" );
+            }
+        }
+    });
+    
+    $( "#create-form" ).dialog({
+        autoOpen: false,
+        height: 370,
+        width: 350,
+        modal: true,
+        buttons: {
+            "Создать": function() {
+                $.ajax({
+                    type: "POST",
+                    url: "/ajax/register.php",
+                    data: { name: name.val(), surname: surname.val(), phone: phone.val(), email: email2.val(), password: password2.val() }
+                }).done(function( msg ) {
+                    if(msg == true) {
+                        alert('Вы удачно вошли в систему!');
+                        $( "#dialog-form" ).dialog( "close" );
+                        window.location.replace("/");
+                    } else {
+                        alert( "Неверно введены данные");
+                    }
+                });
+            },
+            "Отмена": function() {
+                $( this ).dialog( "close" );
+            }
+        }
+    });
+
+    $( "#create-user" )
+        .button()
+        .click(function() {
+            $( "#create-form" ).dialog( "open" );
+        });
+    $( "#login-user" )
+        .button()
+        .click(function() {
+            $( "#login-form" ).dialog( "open" );
+        });
+    $( "#logout" )
+        .button()
+        .click(function(){
+            $.ajax({
+                type: "POST",
+                url: "/ajax/logout.php"
+            }).done(function( msg ) {
+                window.location.replace("/");
+            });
+        });
+});
+</script>
+<div id="login-form" title="Регистрация">
+    <p class="validateTips">Все поля обязательны.</p>
+ 
+    <form>
+    <fieldset>
+        <label for="email">Email</label>
+        <input type="text" name="email" id="email" value="" class="text ui-widget-content ui-corner-all" />
+        <label for="password">Пароль</label>
+        <input type="password" name="password" id="password" value="" class="text ui-widget-content ui-corner-all" />
+    </fieldset>
+    </form>
+</div>
+<div id="create-form" title="Регистрация">
+    <p class="validateTips">Все поля обязательны.</p>
+ 
+    <form>
+    <fieldset>
+        <label for="name">Имя</label>
+        <input type="text" name="name" id="name" value="" class="text ui-widget-content ui-corner-all" />
+        <label for="surname">Фамилия</label>
+        <input type="text" name="surname" id="surname" value="" class="text ui-widget-content ui-corner-all" />
+        <label for="phone">Телефон</label>
+        <input type="password" name="phone" id="phone" value="" class="text ui-widget-content ui-corner-all" />
+        <label for="email">Email</label>
+        <input type="text" name="email" id="email2" value="" class="text ui-widget-content ui-corner-all" />
+        <label for="password">Пароль</label>
+        <input type="password" name="password" id="password2" value="" class="text ui-widget-content ui-corner-all" />
+    </fieldset>
+    </form>
+</div>
+</body>
+</html>
