@@ -1,0 +1,3 @@
+<?
+phpinfo();
+echo 2;

@@ -1,0 +1,20 @@
+{
+    "require" : {
+        "php": ">=5.3",
+        "twig/twig":">=1.5",
+        "doctrine/orm": "*",
+        "geometria-lab/rediska" : "0.5.*",
+        "ircmaxell/password-compat": "dev-master",
+        "gedmo/doctrine-extensions": "dev-master",
+        "jbroadway/urlify" : "*",
+		"mapado/mysql-doctrine-functions": "1.*",
+        "CodePlex/PHPExcel": "1.7.8",
+        "predis/predis": "1.0"
+    },
+    "autoload" : {
+        "psr-0" : {
+            "entities" : "./models"
+        },
+        "classmap": ["modules", "classes", "pages"]
+    }
+}
